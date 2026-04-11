@@ -20,6 +20,8 @@ headers = {
 def fetch_all_pages(endpoint):
     url = f"{BASE_URL}/{endpoint}"
     all_data = []
+    single_object_data = None
+    saw_list_data = False
 
     while url:
         print(f"Fetching: {url}")
@@ -31,16 +33,26 @@ def fetch_all_pages(endpoint):
 
         data = response.json()
 
-        # Append current page data
-        all_data.extend(data["data"])
+        page_data = data.get("data")
+
+        # Handle both list-based (paginated) and object-based endpoints.
+        if isinstance(page_data, list):
+            saw_list_data = True
+            all_data.extend(page_data)
+        elif page_data is not None:
+            single_object_data = page_data
 
         # Get next page URL
-        url = data["pages"]["next_url"]
+        url = (data.get("pages") or {}).get("next_url")
 
         # Respect rate limits
-        time.sleep(0.5)
+        if url:
+            time.sleep(0.5)
 
-    return all_data
+    if saw_list_data:
+        return all_data
+
+    return single_object_data
 
 # Function to save data to JSON file
 def save_to_json(data, filename):
@@ -51,6 +63,13 @@ def save_to_json(data, filename):
 if __name__ == "__main__":
     print("Starting WaniKani API pull...")
 
-    # Pull summary data
-    assignments = fetch_all_pages("assignments")
-    assignments
+    output_dir = os.path.join("data", "raw")
+    os.makedirs(output_dir, exist_ok=True)
+
+    endpoints = ["review_statistics","subjects", "assignments", "summary"]
+
+    for endpoint in endpoints:
+        endpoint_data = fetch_all_pages(endpoint)
+        output_file = os.path.join(output_dir, f"{endpoint}.json")
+        save_to_json(endpoint_data, output_file)
+        print(f"Saved {endpoint} data to {output_file}")
