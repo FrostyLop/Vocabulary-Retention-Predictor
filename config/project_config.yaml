@@ -1,0 +1,32 @@
+project:
+  name: Vocabulary Retention Predictor
+  timezone: UTC
+
+paths:
+  raw_dir: data/raw
+  silver_dir: data/silver
+  gold_dir: data/gold
+  model_dir: models/artifacts
+
+files:
+  assignments_raw: assignments.json
+  review_stats_raw: review_statistics.json
+  subjects_raw: subjects.json
+  summary_raw: summary.json
+
+outputs:
+  assignments_silver: assignments_silver.csv
+  review_stats_silver: review_stats_silver.csv
+  subjects_silver: subjects_silver.csv
+  summary_hourly_silver: summary_hourly_silver.csv
+  subject_features: subject_features_daily.csv
+  risk_labels: risk_labels_daily.csv
+  workload_features: workload_features_hourly.csv
+  workload_targets: workload_targets_hourly.csv
+
+modeling:
+  risk_thresholds:
+    high_risk_pct_correct_lt: 80
+    medium_risk_pct_correct_lt: 90
+  random_state: 42
+  test_size: 0.2
