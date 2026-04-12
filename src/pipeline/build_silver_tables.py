@@ -6,11 +6,13 @@ import pandas as pd
 
 
 def _load_json(path: Path):
+    """Load and parse a JSON file from disk."""
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def _normalize_resource_collection(records: list[dict]) -> pd.DataFrame:
+    """Filter valid API resources and flatten them into a DataFrame."""
     records = [
         r for r in records
         if isinstance(r, dict) and isinstance(r.get("data"), dict) and r.get("id") is not None
@@ -21,6 +23,7 @@ def _normalize_resource_collection(records: list[dict]) -> pd.DataFrame:
 
 
 def build_assignments_silver(raw_dir: Path) -> pd.DataFrame:
+    """Create a normalized assignments table from the raw assignments export."""
     raw = _load_json(raw_dir / "assignments.json")
     df = _normalize_resource_collection(raw)
     if df.empty:
@@ -43,6 +46,7 @@ def build_assignments_silver(raw_dir: Path) -> pd.DataFrame:
 
 
 def build_review_stats_silver(raw_dir: Path) -> pd.DataFrame:
+    """Create a normalized review statistics table from the raw export."""
     raw = _load_json(raw_dir / "review_statistics.json")
     df = _normalize_resource_collection(raw)
     if df.empty:
@@ -64,6 +68,7 @@ def build_review_stats_silver(raw_dir: Path) -> pd.DataFrame:
 
 
 def build_subjects_silver(raw_dir: Path) -> pd.DataFrame:
+    """Create a normalized subjects table and derive simple content features."""
     raw = _load_json(raw_dir / "subjects.json")
     df = _normalize_resource_collection(raw)
     if df.empty:
@@ -94,6 +99,7 @@ def build_subjects_silver(raw_dir: Path) -> pd.DataFrame:
 
 
 def build_summary_hourly_silver(raw_dir: Path) -> pd.DataFrame:
+    """Aggregate summary report lessons and reviews into hourly counts."""
     raw = _load_json(raw_dir / "summary.json")
     if not isinstance(raw, dict) or not isinstance(raw.get("data"), dict):
         return pd.DataFrame()
@@ -135,6 +141,7 @@ def build_summary_hourly_silver(raw_dir: Path) -> pd.DataFrame:
 
 
 def main(raw_dir: str, silver_dir: str) -> None:
+    """Build all silver tables and write them to the configured output directory."""
     raw_path = Path(raw_dir)
     silver_path = Path(silver_dir)
     silver_path.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,24 @@
+{
+  "id": "5435c785-e287-4937-bd79-9191577e43a3",
+  "username": "Amijima",
+  "level": 38,
+  "profile_url": "https://www.wanikani.com/users/Amijima",
+  "started_at": "2025-01-29T21:08:45.718668Z",
+  "subscription": {
+    "active": true,
+    "type": "lifetime",
+    "max_level_granted": 60,
+    "period_ends_at": null
+  },
+  "current_vacation_started_at": null,
+  "preferences": {
+    "lessons_autoplay_audio": false,
+    "lessons_batch_size": 5,
+    "reviews_autoplay_audio": false,
+    "reviews_display_srs_indicator": true,
+    "extra_study_autoplay_audio": false,
+    "reviews_presentation_order": "lower_levels_first",
+    "lessons_presentation_order": "ascending_level_then_subject",
+    "default_voice_actor_id": 1
+  }
+}

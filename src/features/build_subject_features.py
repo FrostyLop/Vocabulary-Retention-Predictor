@@ -27,7 +27,7 @@ def build_subject_features(silver_dir: str | Path, gold_dir: str | Path) -> tupl
         if col in merged.columns:
             merged[col] = pd.to_datetime(merged[col], utc=True, errors="coerce")
 
-    now_ts = pd.Timestamp.utcnow()
+    now_ts = pd.Timestamp.now(tz="UTC")
 
     merged["snapshot_date"] = now_ts.date().isoformat()
     merged["pct_correct"] = merged.get("data_percentage_correct", 0).fillna(0)
