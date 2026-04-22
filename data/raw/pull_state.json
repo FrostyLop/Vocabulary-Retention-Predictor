@@ -1,52 +1,52 @@
 {
   "endpoints": {
     "review_statistics": {
-      "last_successful_pull_at": "2026-04-12T20:36:21.330422Z",
-      "last_data_updated_at": null,
-      "last_record_count": 6120,
-      "last_updated_after_used": "2026-04-12T13:25:10.122978Z"
+      "last_successful_pull_at": "2026-04-21T23:35:10.069250Z",
+      "last_data_updated_at": "2026-04-21T22:23:52.504840Z",
+      "last_record_count": 6225,
+      "last_updated_after_used": null
     },
     "subjects": {
-      "last_successful_pull_at": "2026-04-12T20:36:21.529878Z",
-      "last_data_updated_at": null,
-      "last_record_count": 9378,
-      "last_updated_after_used": "2026-04-11T18:47:55.743592Z"
+      "last_successful_pull_at": "2026-04-21T23:35:14.071649Z",
+      "last_data_updated_at": "2026-04-21T10:59:41.014066Z",
+      "last_record_count": 9379,
+      "last_updated_after_used": null
     },
     "assignments": {
-      "last_successful_pull_at": "2026-04-12T20:36:22.905573Z",
-      "last_data_updated_at": null,
-      "last_record_count": 6237,
-      "last_updated_after_used": "2026-04-12T13:25:10.116497Z"
+      "last_successful_pull_at": "2026-04-21T23:35:17.994698Z",
+      "last_data_updated_at": "2026-04-21T22:23:52.500415Z",
+      "last_record_count": 6277,
+      "last_updated_after_used": null
     },
     "summary": {
-      "last_successful_pull_at": "2026-04-12T20:36:23.119919Z",
-      "last_data_updated_at": "2026-04-12T20:00:00.000000Z",
+      "last_successful_pull_at": "2026-04-21T23:35:18.189224Z",
+      "last_data_updated_at": "2026-04-21T23:00:00.000000Z",
       "last_record_count": 1,
       "last_updated_after_used": null
     },
     "user": {
-      "last_successful_pull_at": "2026-04-12T20:36:23.178360Z",
-      "last_data_updated_at": "2026-04-12T12:06:09.581829Z",
+      "last_successful_pull_at": "2026-04-21T23:35:18.252037Z",
+      "last_data_updated_at": "2026-04-21T22:14:44.016998Z",
       "last_record_count": 1,
       "last_updated_after_used": null
     },
     "level_progressions": {
-      "last_successful_pull_at": "2026-04-12T20:36:23.223800Z",
-      "last_data_updated_at": null,
+      "last_successful_pull_at": "2026-04-21T23:35:18.303570Z",
+      "last_data_updated_at": "2026-04-09T23:56:57.331334Z",
       "last_record_count": 38,
-      "last_updated_after_used": "2026-04-09T23:56:57.331334Z"
+      "last_updated_after_used": null
     },
     "resets": {
-      "last_successful_pull_at": "2026-04-12T20:36:23.282692Z",
+      "last_successful_pull_at": "2026-04-21T23:35:18.427377Z",
       "last_data_updated_at": null,
       "last_record_count": 0,
       "last_updated_after_used": null
     },
     "spaced_repetition_systems": {
-      "last_successful_pull_at": "2026-04-12T20:36:23.330502Z",
-      "last_data_updated_at": null,
+      "last_successful_pull_at": "2026-04-21T23:35:18.514686Z",
+      "last_data_updated_at": "2020-06-09T03:38:01.007395Z",
       "last_record_count": 2,
-      "last_updated_after_used": "2020-06-09T03:38:01.007395Z"
+      "last_updated_after_used": null
     }
   }
 }

@@ -1,0 +1,2 @@
+roc_auc,precision_high_risk,recall_high_risk,f1_high_risk,support_high_risk,artifact_path
+0.9970873786407767,1.0,0.95,0.9743589743589743,20,models\artifacts\risk_model.joblib

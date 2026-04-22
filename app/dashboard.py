@@ -10,6 +10,7 @@ st.caption("MVP dashboard: subject risk ranking and review workload outlook")
 
 GOLD_DIR = Path("data/gold")
 MODEL_DIR = Path("models/artifacts")
+SILVER_DIR = Path("data/silver")
 
 subject_features_path = GOLD_DIR / "subject_features_daily.csv"
 risk_labels_path = GOLD_DIR / "risk_labels_daily.csv"
@@ -34,7 +35,9 @@ subject_features = pd.read_csv(subject_features_path)
 risk_labels = pd.read_csv(risk_labels_path)
 workload_features = pd.read_csv(workload_features_path)
 
+subjects_silver = pd.read_csv(SILVER_DIR / "subjects_silver.csv", usecols=["subject_id", "data_characters", "primary_meaning"])
 risk_df = subject_features.merge(risk_labels, on=["snapshot_date", "subject_id"], how="left")
+risk_df = risk_df.merge(subjects_silver, on="subject_id", how="left")
 
 st.subheader("High-Risk Subjects")
 subject_types = sorted(risk_df["subject_type"].dropna().unique().tolist()) if "subject_type" in risk_df.columns else []
@@ -48,7 +51,7 @@ if "risk_label_binary" in view.columns:
     view = view.sort_values(["risk_label_binary", "pct_correct"], ascending=[False, True])
 
 cols_to_show = [
-    "subject_id", "subject_type", "data_level", "data_srs_stage", "pct_correct",
+    "data_characters", "primary_meaning", "subject_type", "data_level", "data_srs_stage", "pct_correct",
     "total_attempts_est", "total_incorrect", "risk_label_multiclass", "risk_label_binary",
 ]
 cols_to_show = [c for c in cols_to_show if c in view.columns]

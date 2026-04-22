@@ -9,7 +9,15 @@ def build_workload_features(silver_dir: str | Path, gold_dir: str | Path) -> tup
     gold_dir = Path(gold_dir)
     gold_dir.mkdir(parents=True, exist_ok=True)
 
-    summary = pd.read_csv(silver_dir / "summary_hourly_silver.csv")
+    summary_path = silver_dir / "summary_hourly_silver.csv"
+    if not summary_path.exists():
+        raise FileNotFoundError(
+            f"Silver file not found: {summary_path}\n"
+            f"Please run build_silver_tables.py first:\n"
+            f"  python src/pipeline/build_silver_tables.py --raw-dir data/raw --output-dir data/silver"
+        )
+
+    summary = pd.read_csv(summary_path)
     if summary.empty:
         features = pd.DataFrame()
         targets = pd.DataFrame()

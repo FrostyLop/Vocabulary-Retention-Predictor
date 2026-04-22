@@ -81,6 +81,15 @@ def build_subjects_silver(raw_dir: Path) -> pd.DataFrame:
     def _safe_len(x):
         return len(x) if isinstance(x, list) else 0
 
+    def _primary_meaning(meanings):
+        if not isinstance(meanings, list):
+            return None
+        for m in meanings:
+            if isinstance(m, dict) and m.get("primary"):
+                return m.get("meaning")
+        return None
+
+    df["primary_meaning"] = df.get("data_meanings", pd.Series(index=df.index)).apply(_primary_meaning)
     df["has_reading"] = df.get("data_readings", pd.Series(index=df.index)).apply(lambda x: int(_safe_len(x) > 0))
     df["has_context_sentences"] = df.get("data_context_sentences", pd.Series(index=df.index)).apply(lambda x: int(_safe_len(x) > 0))
     df["component_subject_count"] = df.get("data_component_subject_ids", pd.Series(index=df.index)).apply(_safe_len)
@@ -90,7 +99,7 @@ def build_subjects_silver(raw_dir: Path) -> pd.DataFrame:
 
     selected = [
         "id", "object", "url", "data_updated_at", "data_created_at", "data_level", "data_slug",
-        "data_characters", "data_lesson_position", "data_spaced_repetition_system_id", "data_hidden_at",
+        "data_characters", "primary_meaning", "data_lesson_position", "data_spaced_repetition_system_id", "data_hidden_at",
         "has_reading", "has_context_sentences", "component_subject_count", "amalgamation_subject_count",
         "visually_similar_count", "parts_of_speech_count",
     ]
@@ -101,10 +110,15 @@ def build_subjects_silver(raw_dir: Path) -> pd.DataFrame:
 def build_summary_hourly_silver(raw_dir: Path) -> pd.DataFrame:
     """Aggregate summary report lessons and reviews into hourly counts."""
     raw = _load_json(raw_dir / "summary.json")
-    if not isinstance(raw, dict) or not isinstance(raw.get("data"), dict):
+    # The pull script saves the unwrapped data object directly, so raw IS the report.
+    # Fall back to raw["data"] for compatibility with any legacy format.
+    if isinstance(raw, dict) and isinstance(raw.get("data"), dict):
+        report = raw["data"]
+    elif isinstance(raw, dict) and ("reviews" in raw or "lessons" in raw):
+        report = raw
+    else:
         return pd.DataFrame()
 
-    report = raw["data"]
     rows = []
 
     for row in report.get("reviews", []):
