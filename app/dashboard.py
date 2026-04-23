@@ -39,6 +39,10 @@ subjects_silver = pd.read_csv(SILVER_DIR / "subjects_silver.csv", usecols=["subj
 risk_df = subject_features.merge(risk_labels, on=["snapshot_date", "subject_id"], how="left")
 risk_df = risk_df.merge(subjects_silver, on="subject_id", how="left")
 
+# Guardrail: exclude stage 0 subjects even if stale gold files contain them.
+if "data_srs_stage" in risk_df.columns:
+    risk_df = risk_df[risk_df["data_srs_stage"].fillna(0) != 0]
+
 st.subheader("High-Risk Subjects")
 subject_types = sorted(risk_df["subject_type"].dropna().unique().tolist()) if "subject_type" in risk_df.columns else []
 selected_type = st.selectbox("Filter by subject type", options=["all"] + subject_types)

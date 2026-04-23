@@ -66,4 +66,5 @@ streamlit run app/dashboard.py
 
 - The historical `reviews` retrieval endpoint is deprecated, so this scaffold is centered on `assignments`, `review_statistics`, `subjects`, and `summary`.
 - Current labels in `build_subject_features.py` are weak-supervision rules suitable for MVP iteration.
+- SRS stage 0 subjects (locked, not yet started) are excluded from gold features, risk labels, model training, and dashboard ranking. They have no review history and would otherwise dominate high-risk outputs due to the `srs_stage <= 3` labeling rule. The exclusion is applied in `build_subject_features.py` before label creation, with a defensive guardrail also present in `dashboard.py`. Silver and raw data are unaffected. Workload forecasting is also unaffected as it derives from hourly summary data, not subject SRS stage.
 

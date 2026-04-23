@@ -29,6 +29,13 @@ def build_subject_features(silver_dir: str | Path, gold_dir: str | Path) -> tupl
 
     now_ts = pd.Timestamp.now(tz="UTC")
 
+    # Exclude stage 0 (locked, not yet started) subjects — they have no review
+    # history and over-represent the high-risk label due to srs_stage <= 3 rule.
+    before_count = len(merged)
+    if "data_srs_stage" in merged.columns:
+        merged = merged[merged["data_srs_stage"].fillna(0) != 0].reset_index(drop=True)
+    print(f"Stage-0 exclusion: {before_count - len(merged)} rows removed, {len(merged)} rows retained.")
+
     merged["snapshot_date"] = now_ts.date().isoformat()
     merged["pct_correct"] = merged.get("data_percentage_correct", 0).fillna(0)
     merged["meaning_correct"] = merged.get("data_meaning_correct", 0).fillna(0)
